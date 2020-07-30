@@ -3,13 +3,13 @@ package com.example.wycliffenyakemwa.mycouroutines
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
 
+    @ObsoleteCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,7 +30,28 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        //doNetworkCall() - cant call from here
+        //Co-routine contexts / threads
+        /**
+         * Dispatchers.Main : co-routine in main thread : UI stuff from within the co-routine
+         * IO :  Network, DB writes, RW-files
+         * Default : Complex and long lasting executions that can block main thread (sort 10k elements)
+         * Unconfined : not confined
+         * newSingleThreadContext(name) : Your own
+         */
+
+        GlobalScope.launch(newSingleThreadContext("MyThread")) {  }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "Thread launched by co-routine net call : ${Thread.currentThread().name}")
+            val response = doNetworkCall()
+
+            // switch context
+            withContext(Dispatchers.Main){
+                Log.d(TAG, "Thread launched for response: ${Thread.currentThread().name}")
+                tvTest.text = response
+            }
+        }
+
     }
 
     private suspend fun doNetworkCall(): String {
