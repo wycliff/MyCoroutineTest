@@ -5,51 +5,172 @@
     android:id="@+id/layout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp"
-    tools:context="">
+    tools:context="com.sendyit.view.activities.AppTour">
 
     <View
-        android:id="@+id/fake_statusbar_view"
+        android:id="@+id/viewFakeStatusBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorPrimary" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/image_onboarding"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="30dp"
-        android:scaleType="centerCrop"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/lottie_developer" />
-
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSwipeRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/viewFakeStatusBar"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="42dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="end"
+        android:text="@string/text_swipe_right"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvImageOnboarding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="12dp">
+
+        <ImageView
+            android:id="@+id/ivOnboardingTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_pick_up" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/llInformationDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cvImageOnboarding"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="70dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_onboarding_title"
+            android:id="@+id/tvOnboardingTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/title_onboarding_1"
-            android:textColor="@color/md_white_1000"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:gravity="start"
+            android:text="@string/enter_your_pick_up_location"
+            android:textColor="@color/color_app_tour_orange"
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_onboarding_description"
+            android:id="@+id/tvOnboardingDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/description_onboarding_1"
-            android:textColor="@color/md_grey_100"
-            android:textSize="14sp" />
+            android:gravity="start"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llInformationDescription2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="70dp"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOnboardingTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="start"
+            android:text="@string/enter_your_pick_up_location"
+            android:textColor="@color/color_app_tour_orange"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOnboardingDescription2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvImageOnboardingBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="112dp"
+        android:backgroundTint="@color/white"
+        android:visibility="gone"
+        app:cardCornerRadius="12dp">
+
+        <ImageView
+            android:id="@+id/ivOnboardingBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_pick_up" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvImageOnboardingBottom2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="112dp"
+        android:backgroundTint="@color/white"
+        android:visibility="gone"
+        app:cardCornerRadius="12dp">
+
+        <ImageView
+            android:id="@+id/ivOnboardingBottom2"
+            android:layout_width="240dp"
+            android:layout_gravity="center"
+            android:layout_height="330dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_date_picker" />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
