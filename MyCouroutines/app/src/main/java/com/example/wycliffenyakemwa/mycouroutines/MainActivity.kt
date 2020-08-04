@@ -14,13 +14,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-     //   Log.d(TAG, "Oncreate Thread : ${Thread.currentThread().name}")
+        //   Log.d(TAG, "Oncreate Thread : ${Thread.currentThread().name}")
 
         //start a co-routine
         GlobalScope.launch {
 
             delay(4000L) // pauses current co-routine. Only run inside co-routine or another suspend function.
-          //  Log.d(TAG, "Thread launched by co-routine : ${Thread.currentThread().name}")
+            //  Log.d(TAG, "Thread launched by co-routine : ${Thread.currentThread().name}")
 
             //Suspend functions (sequential execution)
             val networkCall1 = doNetworkCall()
@@ -42,12 +42,12 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch(newSingleThreadContext("MyThread")) { }
 
         GlobalScope.launch(Dispatchers.IO) {
-         //   Log.d(TAG, "Thread launched by co-routine net call : ${Thread.currentThread().name}")
+            //   Log.d(TAG, "Thread launched by co-routine net call : ${Thread.currentThread().name}")
             val response = doNetworkCall()
 
             // switch context
             withContext(Dispatchers.Main) {
-              //  Log.d(TAG, "Thread launched for response: ${Thread.currentThread().name}")
+                //  Log.d(TAG, "Thread launched for response: ${Thread.currentThread().name}")
                 tvTest.text = response
             }
         }
@@ -76,9 +76,48 @@ class MainActivity : AppCompatActivity() {
             delay(5000L)
             Log.d(TAG, "After Delay")
 
-
-
         }
+
+        /**
+         * Jobs
+         * Waiting
+         * Cancellation
+         * Usecase : cancel long running network calls
+         */
+//        val job = GlobalScope.launch(Dispatchers.Default) {
+//            repeat(5) {
+//                Log.d(TAG, "Coroutine is still working... ")
+//                delay(1000L)
+//            }
+//        }
+
+//         runBlocking {
+//            job.join()
+//            Log.d(TAG , "Main thread is continuing... ")
+//        }
+
+        val job = GlobalScope.launch(Dispatchers.Default) {
+            Log.d(TAG, "Starting Long Running Job...")
+
+            // Automatic job cancellation if it times out
+            withTimeout(3000L) {
+                //Automatic cancellation
+                for (i in 30..45) {
+                    if (isActive) { // check if our coroutine is still active or if it has been canceled
+                        Log.d(TAG, "Output for i = $i: ${fib(i)} ")
+                    }
+                }
+            }
+            Log.d(TAG, "Ending Long Running Job...")
+        }
+
+        //manually cancelling a job
+//        runBlocking {
+//            delay(2000L)
+//            job.cancel() // sometimes coroutine too busy to receive cancellation
+//            Log.d(TAG, "Cancel Job!")
+//        }
+
     }
 
     private suspend fun doNetworkCall(): String {
@@ -89,5 +128,12 @@ class MainActivity : AppCompatActivity() {
     private suspend fun doNetworkCall2(): String {
         delay(3000L) // simulated network call
         return "This is the network response2"
+    }
+
+    fun fib(n: Int): Long {
+        return if (n == 0) 0
+        else if (n == 1) 1
+        else fib(n - 1) + fib(n - 2)
+
     }
 }
