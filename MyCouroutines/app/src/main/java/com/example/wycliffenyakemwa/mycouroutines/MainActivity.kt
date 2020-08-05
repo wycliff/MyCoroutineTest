@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
@@ -13,8 +14,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //   Log.d(TAG, "Oncreate Thread : ${Thread.currentThread().name}")
 
         //start a co-routine
         GlobalScope.launch {
@@ -92,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //         runBlocking {
-//            job.join()
+//            job.join() //Suspends the coroutine until this job is complete.
 //            Log.d(TAG , "Main thread is continuing... ")
 //        }
 
@@ -118,6 +117,19 @@ class MainActivity : AppCompatActivity() {
 //            Log.d(TAG, "Cancel Job!")
 //        }
 
+        /**
+         * Async and Await
+         */
+        GlobalScope.launch(Dispatchers.IO) {
+            val time = measureTimeMillis {
+                val answer1 = async { doNetworkCall() }
+                val answer2 = async { doNetworkCall2() }
+
+                Log.d(TAG, "Answer 1: ${answer1.await()}")
+                Log.d(TAG, "Answer 2: ${answer2.await()}")
+            }
+            Log.d(TAG, "Time taken : $time ")
+        }
     }
 
     private suspend fun doNetworkCall(): String {
@@ -134,6 +146,5 @@ class MainActivity : AppCompatActivity() {
         return if (n == 0) 0
         else if (n == 1) 1
         else fib(n - 1) + fib(n - 2)
-
     }
 }
